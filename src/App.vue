@@ -1,9 +1,21 @@
 <template>
   <div id="app">
-    <Player />
+    <Player
+      :track="currentTrack"
+      @play="playTrack"
+      @stop="stopTrack"
+    />
     <div class="main">
-      <Playlist class="main-playlist" />
-      <Search class="main-search" />
+      <Playlist
+        class="main-playlist"
+        :tracks="tracks"
+        @play="playNewTrack"
+        @remove="removeTrack"
+      />
+      <Search
+        class="main-search"
+        @add="addTrack"
+      />
     </div>
   </div>
 </template>
@@ -19,6 +31,54 @@ export default {
     Player,
     Playlist,
     Search,
+  },
+  data () {
+    return {
+      tracks: [],
+      currentTrack: {},
+      audio: new Audio(),
+    }
+  },
+  methods: {
+    addTrack (newTrack) {
+      const amount = this.tracks
+        .filter(track => track.id === newTrack.id)
+        .length
+
+      this.tracks.push({
+        ...newTrack,
+        playlistId: newTrack.id + '_' + (amount + 1)
+      })
+    },
+    removeTrack (index) {
+      this.tracks.splice(index, 1)
+    },
+    playNewTrack (index) {
+      this.audio.pause()
+      
+      if (index < 0 || index >= this.tracks.length) {
+        return
+      }
+
+      this.currentTrack = this.tracks[index]
+      this.audio = new Audio(this.currentTrack.preview)
+      this.audio.play()
+      this.audio.volume = 0.1
+      this.audio.onended = () => {
+        this.playNewTrack(index + 1)
+      }
+    },
+    playTrack () {
+      if (!this.currentTrack.preview) {
+        this.playNewTrack(0)
+        return
+      }
+      this.audio.play()
+    },
+    stopTrack () {
+      this.audio.pause()
+      this.audio.currentTime = 0
+    },
   }
 }
 </script>
@@ -45,21 +105,5 @@ export default {
   }
   .main-search {
     flex: 1 1 0;
-  }
-
-  .track {
-    display: flex;
-    margin: 10px 0;
-
-    font-size: 16px;
-
-    color: white;
-    background:cornflowerblue;
-  }
-  .track .description {
-    flex: 1 1 auto;
-  }
-  .track button {
-    margin-left: 10px;
   }
 </style>

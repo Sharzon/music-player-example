@@ -1,14 +1,24 @@
 <template>
   <div class="player">
-    <button>Play</button>
-    <button>Stop</button>
-    <span>Eminem - Lose Yourself</span>
+    <button @click="$emit('play')">Play</button>
+    <button @click="$emit('stop')">Stop</button>
+    <span>{{ trackDescription }}</span>
   </div>
 </template>
 
 <script>
 export default {
   name: 'Player',
+  props: {
+    track: Object,
+  },
+  computed: {
+    trackDescription () {
+      const parts = [this.track.artist, this.track.title]
+
+      return parts.filter(Boolean).join(' - ')
+    }
+  }
 }
 </script>
 
@@ -21,5 +31,9 @@ export default {
   .player button {
     margin-right: 20px;
     font-size: inherit;
+    /* height: 30px; */
   }
+  /* .player .track-description {
+    d
+  } */
 </style>
