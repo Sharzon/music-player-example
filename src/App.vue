@@ -1,77 +1,25 @@
 <template>
   <div id="app">
-    <div class="player">
-      <button>Play</button>
-      <button>Stop</button>
-      <span>Eminem - Lose Yourself</span>
-    </div>
+    <Player />
     <div class="main">
-      <div class="main-playlist playlist">
-        <div class="track">
-          <div class="description">Eminem - Lose Yourself</div>
-          <div>
-            <button>Play</button>
-            <button>Remove</button>
-          </div>
-        </div>
-        <div class="track">
-          <div class="description">Eminem - Not Afraid</div>
-          <div>
-            <button>Play</button>
-            <button>Remove</button>
-          </div>
-        </div>
-        <div class="track">
-          <div class="description">Eminem - Mockingbird</div>
-          <div>
-            <button>Play</button>
-            <button>Remove</button>
-          </div>
-        </div>
-      </div>
-      <div class="main-search search">
-        <input
-          class="search-field"
-          type="text"
-        >
-        <div class="track">
-          <div class="description">Eminem - Lose Yourself</div>
-          <div>
-            <button>Add</button>
-          </div>
-        </div>
-        <div class="track">
-          <div class="description">Eminem - Without Me</div>
-          <div>
-            <button>Add</button>
-          </div>
-        </div>
-        <div class="track">
-          <div class="description">Eminem - The Real Slim Shady</div>
-          <div>
-            <button>Add</button>
-          </div>
-        </div>
-        <div class="track">
-          <div class="description">Eminem - Not Afraid</div>
-          <div>
-            <button>Add</button>
-          </div>
-        </div>
-        <div class="track">
-          <div class="description">Eminem - Mockingbird</div>
-          <div>
-            <button>Add</button>
-          </div>
-        </div>
-      </div>
+      <Playlist class="main-playlist" />
+      <Search class="main-search" />
     </div>
   </div>
 </template>
 
 <script>
+import Player from './components/Player'
+import Playlist from './components/Playlist'
+import Search from './components/Search'
+
 export default {
   name: 'App',
+  components: {
+    Player,
+    Playlist,
+    Search,
+  }
 }
 </script>
 
@@ -97,36 +45,6 @@ export default {
   }
   .main-search {
     flex: 1 1 0;
-  }
-
-  .player {
-    padding: 20px;
-    background: indianred;
-  }
-
-  .player button {
-    margin-right: 20px;
-    font-size: inherit;
-  }
-
-  .playlist {
-    padding: 20px;
-    background: greenyellow;
-  }
-
-  .playlist .track:first-child {
-    margin-top: 0;
-  }
-
-  .search {
-    padding: 20px;
-    background: violet;
-  }
-
-  .search-field {
-    width: 100%;
-    font-size: inherit;
-    padding: 5px 10px;
   }
 
   .track {
